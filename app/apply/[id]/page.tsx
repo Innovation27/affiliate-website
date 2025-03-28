@@ -1,11 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+// 定义项目类型
+type Program = {
+  id: string;
+  name: string;
+  description: string;
+  fullDescription: string;
+  commission: string;
+  category: string;
+  region: string;
+  requirements: string[];
+  benefits: string[];
+  logo: string;
+};
+
 // 模拟项目数据库
-const programsDatabase = [
+const programsDatabase: Program[] = [
   {
     id: '1',
     name: 'Amazon Associates',
@@ -164,12 +178,22 @@ const programsDatabase = [
   }
 ];
 
+// 表单数据类型
+type FormData = {
+  name: string;
+  email: string;
+  website: string;
+  social: string;
+  experience: string;
+  promotion: string;
+};
+
 export default function ApplyPage() {
   const params = useParams();
   const router = useRouter();
-  const [program, setProgram] = useState(null);
+  const [program, setProgram] = useState<Program | null>(null);
   const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     website: '',
@@ -189,7 +213,9 @@ export default function ApplyPage() {
     }
   }, [params.id]);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -197,7 +223,7 @@ export default function ApplyPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
