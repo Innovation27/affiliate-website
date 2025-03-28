@@ -17,6 +17,18 @@ import ForgotPassword from '@/components/ui/AuthForms/ForgotPassword';
 import UpdatePassword from '@/components/ui/AuthForms/UpdatePassword';
 import SignUp from '@/components/ui/AuthForms/Signup';
 
+// 添加generateStaticParams函数以支持静态导出
+export function generateStaticParams() {
+  const viewTypes = [
+    'password_signin',
+    'email_signin',
+    'forgot_password',
+    'update_password',
+    'signup'
+  ];
+  return viewTypes.map((id) => ({ id }));
+}
+
 export default async function SignIn({
   params,
   searchParams
