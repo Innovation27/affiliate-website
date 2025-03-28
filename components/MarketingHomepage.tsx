@@ -2,20 +2,36 @@
 
 import LogoCloud from '@/components/ui/LogoCloud';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function MarketingHomepage() {
   return (
     <section className="bg-black min-h-screen">
       <div className="max-w-6xl px-4 py-20 mx-auto sm:py-32 sm:px-6 lg:px-8">
-        {/* 英雄区域 - 简化版本 */}
+        {/* 英雄区域 - 使用动画效果 */}
         <div className="text-center">
-          <h1 className="text-5xl font-extrabold text-white sm:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
+          <motion.h1
+            className="text-5xl font-extrabold text-white sm:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             联盟营销平台
-          </h1>
-          <p className="max-w-2xl m-auto mt-6 text-xl text-zinc-300">
+          </motion.h1>
+          <motion.p
+            className="max-w-2xl m-auto mt-6 text-xl text-zinc-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             发现、管理和优化您的联盟推广机会，快速实现被动收入增长
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
+          </motion.p>
+          <motion.div
+            className="flex flex-wrap justify-center gap-4 mt-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             <Link
               href="/signin/signup"
               className="px-8 py-3 text-base font-medium text-white bg-pink-600 rounded-md hover:bg-pink-700 shadow-lg shadow-pink-500/20 transition-all hover:shadow-pink-500/40"
@@ -28,14 +44,19 @@ export default function MarketingHomepage() {
             >
               立即登录
             </Link>
-          </div>
+          </motion.div>
         </div>
 
         {/* 特点展示部分 */}
         <div className="mt-32">
-          <h2 className="text-3xl font-bold text-center text-white">
+          <motion.h2
+            className="text-3xl font-bold text-center text-white"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
             为什么选择我们的平台？
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 gap-8 mt-12 sm:grid-cols-2 lg:grid-cols-3">
             {/* 特点卡片 */}
             {[
@@ -70,22 +91,32 @@ export default function MarketingHomepage() {
                 icon: '👥'
               }
             ].map((feature, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="p-6 bg-zinc-900 rounded-lg border border-zinc-800 hover:border-pink-500/50 transition-all hover:-translate-y-1"
+                className="p-6 bg-zinc-900 rounded-lg border border-zinc-800 hover:border-pink-500/50 transition-all"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ y: -5 }}
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-semibold text-white">
                   {feature.title}
                 </h3>
                 <p className="mt-2 text-zinc-400">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* 会员计划部分 */}
-        <div className="mt-32 text-center">
+        <motion.div
+          className="mt-32 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
           <h2 className="text-3xl font-bold text-white">
             选择适合您的会员计划
           </h2>
@@ -100,10 +131,15 @@ export default function MarketingHomepage() {
               查看详细价格
             </Link>
           </div>
-        </div>
+        </motion.div>
 
         {/* 用户评价部分 */}
-        <div className="mt-32">
+        <motion.div
+          className="mt-32"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
           <h2 className="text-3xl font-bold text-center text-white mb-12">
             用户心声
           </h2>
@@ -128,9 +164,13 @@ export default function MarketingHomepage() {
                 title: '自由职业者'
               }
             ].map((testimonial, i) => (
-              <div
+              <motion.div
                 key={i}
                 className="bg-zinc-900 p-6 rounded-lg border border-zinc-800"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
               >
                 <p className="italic text-zinc-300 mb-4">
                   "{testimonial.quote}"
@@ -139,13 +179,18 @@ export default function MarketingHomepage() {
                   {testimonial.author}
                 </div>
                 <div className="text-zinc-500 text-sm">{testimonial.title}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* 注册行动号召 */}
-        <div className="mt-32 py-16 bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-xl text-center">
+        <motion.div
+          className="mt-32 py-16 bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-xl text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
           <h2 className="text-3xl font-bold text-white mb-6">
             今天就开始您的联盟营销之旅
           </h2>
@@ -158,7 +203,7 @@ export default function MarketingHomepage() {
           >
             免费注册
           </Link>
-        </div>
+        </motion.div>
 
         {/* 合作伙伴部分 */}
         <LogoCloud />

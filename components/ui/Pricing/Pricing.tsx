@@ -146,7 +146,7 @@ export default function Pricing({ user, products, subscription }: Props) {
           <div className="mt-20 space-y-0 sm:mt-24 flex flex-wrap justify-center gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0">
             {[...products]
               .sort((a, b) => {
-                const priority: Record<string, number> = {
+                const priority = {
                   免费用户: 1,
                   Free: 1,
                   基础会员: 2,

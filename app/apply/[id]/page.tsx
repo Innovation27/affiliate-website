@@ -4,22 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-// 定义项目类型
-type Program = {
-  id: string;
-  name: string;
-  description: string;
-  fullDescription: string;
-  commission: string;
-  category: string;
-  region: string;
-  requirements: string[];
-  benefits: string[];
-  logo: string;
-};
-
 // 模拟项目数据库
-const programsDatabase: Program[] = [
+const programsDatabase = [
   {
     id: '1',
     name: 'Amazon Associates',
@@ -181,7 +167,7 @@ const programsDatabase: Program[] = [
 export default function ApplyPage() {
   const params = useParams();
   const router = useRouter();
-  const [program, setProgram] = useState<Program | null>(null);
+  const [program, setProgram] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -203,11 +189,7 @@ export default function ApplyPage() {
     }
   }, [params.id]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -215,7 +197,7 @@ export default function ApplyPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
