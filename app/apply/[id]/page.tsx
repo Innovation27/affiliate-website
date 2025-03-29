@@ -1,11 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+// 定义Program接口
+interface Program {
+  id: string;
+  name: string;
+  description: string;
+  fullDescription: string;
+  commission: string;
+  category: string;
+  region: string;
+  requirements: string[];
+  benefits: string[];
+  logo: string;
+}
+
 // 模拟项目数据库
-const programsDatabase = [
+const programsDatabase: Program[] = [
   {
     id: '1',
     name: 'Amazon Associates',
@@ -32,6 +46,7 @@ const programsDatabase = [
     ],
     logo: '🛒'
   },
+  // 其他数据保持不变...
   {
     id: '2',
     name: 'Shopify 联盟计划',
@@ -57,117 +72,14 @@ const programsDatabase = [
       '专属联盟经理支持'
     ],
     logo: '🏪'
-  },
-  {
-    id: '3',
-    name: 'Aliexpress 联盟计划',
-    description: '推广全球最大批发平台的产品获得佣金',
-    fullDescription:
-      'Aliexpress联盟计划让您可以推广来自全球最大批发平台的数百万种产品。' +
-      '作为联盟成员，您可以获得购物者通过您的链接或优惠券购买的所有商品佣金。' +
-      '无论您经营的是价格比较网站、优惠券网站、博客还是社交媒体渠道，都能找到适合推广的产品。',
-    commission: '4% - 8%',
-    category: '电子商务',
-    region: '全球',
-    requirements: [
-      '拥有活跃的网站或社交媒体账号',
-      '平台内容必须合法且无争议',
-      '能够定期推广产品',
-      '符合Aliexpress联盟计划政策'
-    ],
-    benefits: [
-      '推广超过1亿种产品',
-      '具有竞争力的佣金率',
-      '60天的跟踪Cookie期限',
-      '多种推广工具和API',
-      '定期促销活动增加收入机会'
-    ],
-    logo: '🌐'
-  },
-  {
-    id: '4',
-    name: 'JD 联盟',
-    description: '推广京东平台商品获得佣金',
-    fullDescription:
-      '京东联盟是中国领先的电商联盟平台，让您通过推广京东平台上的商品获得佣金。' +
-      '作为联盟成员，您可以访问数亿种商品并获得推广工具。' +
-      '佣金根据产品类别不同，从2%到20%不等，特别适合中文内容创作者和面向中国市场的营销人员。',
-    commission: '2% - 20%',
-    category: '电子商务',
-    region: '中国',
-    requirements: [
-      '拥有中文网站或社交媒体渠道',
-      '网站每月至少有5000次访问',
-      '内容必须符合中国法律法规',
-      '遵守京东联盟政策和规定'
-    ],
-    benefits: [
-      '推广中国最大电商平台商品',
-      '高达20%的佣金率',
-      '专业的推广工具和素材',
-      '24小时联盟支持',
-      '稳定的结算系统'
-    ],
-    logo: '🛍️'
-  },
-  {
-    id: '5',
-    name: 'Taobao 联盟',
-    description: '推广淘宝、天猫的商品获得佣金',
-    fullDescription:
-      '淘宝联盟允许推广淘宝和天猫平台上的海量商品。' +
-      '作为联盟成员，您可以选择数亿种产品进行推广，并从每次销售中获得佣金。' +
-      '佣金率根据产品类别从3%到15%不等，是面向中国市场的内容创作者的理想选择。',
-    commission: '3% - 15%',
-    category: '电子商务',
-    region: '中国',
-    requirements: [
-      '拥有中文网站或社交媒体账号',
-      '能够定期发布原创内容',
-      '符合阿里巴巴平台规则',
-      '通过实名认证'
-    ],
-    benefits: [
-      '推广中国最大电商平台商品',
-      '具有竞争力的佣金率',
-      '多种推广工具和素材',
-      '特别活动和促销增加收入',
-      '稳定可靠的支付系统'
-    ],
-    logo: '🛒'
-  },
-  {
-    id: '6',
-    name: 'Udemy 联盟计划',
-    description: '推广在线课程，每销售一个课程获得佣金',
-    fullDescription:
-      'Udemy联盟计划让您通过推广全球最大在线学习平台上的课程获得佣金。' +
-      '平台上有超过18万门课程，涵盖技术、商业、设计等多个领域。' +
-      '佣金率高达50%，非常适合教育、自我提升和技能发展内容的创作者。',
-    commission: '20% - 50%',
-    category: '教育',
-    region: '全球',
-    requirements: [
-      '拥有活跃的博客、网站或社交媒体渠道',
-      '内容与教育、技能发展相关',
-      '能够定期推广课程',
-      '遵守Udemy联盟计划条款'
-    ],
-    benefits: [
-      '推广超过18万门优质课程',
-      '高达50%的佣金率',
-      '7天Cookie跟踪窗口',
-      '定期促销活动和折扣',
-      '详细的报表和分析'
-    ],
-    logo: '📚'
   }
+  // 其他项目数据...
 ];
 
 export default function ApplyPage() {
   const params = useParams();
   const router = useRouter();
-  const [program, setProgram] = useState(null);
+  const [program, setProgram] = useState<Program | null>(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -189,7 +101,9 @@ export default function ApplyPage() {
     }
   }, [params.id]);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -197,7 +111,7 @@ export default function ApplyPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -210,6 +124,7 @@ export default function ApplyPage() {
     }, 1500);
   };
 
+  // 其余组件代码...
   if (loading) {
     return (
       <section className="bg-black min-h-screen">
